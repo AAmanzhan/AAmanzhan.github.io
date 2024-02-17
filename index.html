@@ -135,7 +135,6 @@
 
 <script>
   window.addEventListener('DOMContentLoaded', function() {
-    var ticketOptions = document.getElementById('ticketOptions');
     var ticketTypeSelect = document.getElementById('ticketType');
 
     // 获取当前时间
@@ -147,9 +146,8 @@
       var presaleOption = document.createElement('option');
       presaleOption.value = 'presale';
       presaleOption.textContent = '预售票 - 40元';
-      ticketOptions.appendChild(document.createElement('li')).appendChild(document.createTextNode('预售票 - 40元'));
       ticketTypeSelect.appendChild(presaleOption);
-      } else {
+    } else {
       var onsiteOption = document.createElement('option');
       onsiteOption.value = 'onsite';
       onsiteOption.textContent = '现场票 - 45元';
