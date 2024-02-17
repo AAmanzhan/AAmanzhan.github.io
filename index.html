@@ -9,12 +9,19 @@
     font-family: Arial, sans-serif;
     margin: 0;
     padding: 0;
+    background-image: url('/desk.png'); /* 设置背景图片 */
+    background-size: cover; /* 背景图片填充整个页面 */
+    background-repeat: no-repeat; /* 防止背景图片重复 */
   }
   header {
     background-color: #333;
     color: #fff;
     padding: 10px 0;
     text-align: center;
+  }
+  header img {
+    width: 100px; /* 调整LOGO的宽度 */
+    height: auto; /* 保持比例 */
   }
   nav {
     background-color: #666;
@@ -32,21 +39,42 @@
   }
   section {
     padding: 20px;
+    background-color: rgba(255, 255, 255, 0.9); /* 设置内容区域背景颜色和透明度 */
+    border-radius: 10px; /* 圆角边框 */
+    margin: 20px; /* 设置外边距 */
   }
-  footer {
-    background-color: #333;
-    color: #fff;
-    padding: 10px 0;
-    text-align: center;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+  .split-container {
+    display: flex;
+    align-items: center;
+  }
+  .split-container .left {
+    flex: 1;
+    padding: 20px;
+  }
+  .split-container .left img {
+    max-width: 100%;
+    height: auto;
+    cursor: pointer; /* 添加指针样式 */
+    transition: transform 0.3s ease; /* 添加过渡效果 */
+  }
+  .split-container .left img:hover {
+    transform: scale(1.1); /* 悬停时放大图片 */
+  }
+  .split-container .right {
+    flex: 1;
+    padding: 20px;
+  }
+  .ticket-form {
+    background-color: #f9f9f9;
+    padding: 20px;
+    border-radius: 10px;
   }
 </style>
 </head>
 <body>
 
 <header>
+  <img src="/logo.png" alt="AA漫展售票平台LOGO"> <!-- 添加LOGO -->
   <h1>AA漫展售票平台</h1>
 </header>
 
@@ -64,24 +92,27 @@
 
 <section id="tickets">
   <h2>购票</h2>
-  <p>请选择您要购买的票种：</p>
-  <ul id="ticketOptions">
-    <!-- 这里将由JavaScript动态添加选项 -->
-  </ul>
-  <form action="/pay.html" method="post">
-    <label for="ticketType">选择票种：</label>
-    <select name="ticketType" id="ticketType">
-      <!-- 这里将由JavaScript动态添加选项 -->
-    </select>
-    <br><br>
-    <label for="quantity">购买数量：</label>
-    <input type="number" name="quantity" id="quantity" min="1" value="1">
-    <br><br>
-    <li> <a href="https://aamanzhan.github.io/pay.html"><input type="submit" value="购买"></a> </li>
-  </form>
-  <p><strong>备注：</strong>1·5月1号00:00之前只能购买预售票，5月1号00:00之后一律都是现场票。网页购票不支持退款，除非超过漫展时间未检票。
-  2.打不开购买链接请复制链接在新窗口中打开
-  </p>
+  <div class="split-container">
+    <div class="left">
+      <img id="ticketImage" src="/zhanshi/photo1.png" alt="漫展图片">
+    </div>
+    <div class="right">
+      <div class="ticket-form">
+        <p>请选择您要购买的票种：</p>
+        <select name="ticketType" id="ticketType">
+          <!-- 这里将由JavaScript动态添加选项 -->
+        </select>
+        <br><br>
+        <label for="quantity">购买数量：</label>
+        <input type="number" name="quantity" id="quantity" min="1" value="1">
+        <br><br>
+        <input type="submit" value="购买">
+        <p><strong>备注：</strong>1·5月1号00:00之前只能购买预售票，5月1号00:00之后一律都是现场票。网页购票不支持退款，除非超过漫展时间未检票。
+          2.打不开购买链接请复制链接在新窗口中打开
+        </p>
+      </div>
+    </div>
+  </div>
 </section>
 
 <section id="about">
@@ -118,14 +149,31 @@
       presaleOption.textContent = '预售票 - 40元';
       ticketOptions.appendChild(document.createElement('li')).appendChild(document.createTextNode('预售票 - 40元'));
       ticketTypeSelect.appendChild(presaleOption);
-    } else {
+      } else {
       var onsiteOption = document.createElement('option');
       onsiteOption.value = 'onsite';
       onsiteOption.textContent = '现场票 - 45元';
-      ticketOptions.appendChild(document.createElement('li')).appendChild(document.createTextNode('现场票 - 45元'));
       ticketTypeSelect.appendChild(onsiteOption);
     }
-  });-
+
+    // 图片轮播
+    var images = ['/zhanshi/photo1.png', '/zhanshi/photo2.png', '/zhanshi/photo3.png', '/zhanshi/photo4.png'];
+    var currentIndex = 0;
+    var ticketImage = document.getElementById('ticketImage');
+
+    function changeImage() {
+      ticketImage.src = images[currentIndex];
+      currentIndex = (currentIndex + 1) % images.length;
+    }
+
+    setInterval(changeImage, 3000); // 每隔3秒切换一次图片
+
+    // 点击图片切换到下一张
+    ticketImage.addEventListener('click', function() {
+      currentIndex = (currentIndex + 1) % images.length;
+      ticketImage.src = images[currentIndex];
+    });
+  });
 </script>
 
 </body>
